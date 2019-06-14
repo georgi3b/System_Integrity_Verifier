@@ -1,0 +1,49 @@
+This is a System Integrity Verifier, a program that monitores a directory 
+and its files in order to allow the user to see if any changes have been done. 
+The data contained in the verification file serves as basis for the integrity
+verification. The output of the verification is contained in the report file. 
+--------------------------------------------------------------------------------
+COMMAND LINE ARGUMENTS 
+--------------------------------------------------------------------------------
+-i|-v|-h
+You are now in -h (help) mode.
+ 
+-i : initialisation mode. Use this if you are monitoring a new directory.
+   Takes as arguments: -D <monitored_directory>, -V <verification_file>, 
+   -R <report_file>, -H <hash_function>.
+
+   Example: siv -i -D important_directory -V verificationDB -R my_report.txt -H sha1
+
+-v : verification mode. To be used if you have already run the 			  
+   initialisation mode. It checks the entries of the monitored directory 		   
+   against the information already stored in the verification file. It outputs 	
+   everything that diverges into the report file. Takes as arguments: -D 	  
+   <monitored_directory>, -V <verification_file>, -R <report_file.txt>.
+
+   Example: siv -v -D important_directory -V verificationDB -R my_report2.txt
+   
+ ATTENTION: The paths given as input must not contain spaces. Please escape the 
+ spaces or use single quotes!
+--------------------------------------------------------------------------------
+
+-D <monitored_directory> : Takes the absolute or relative path to a directory to be 
+			 monitored
+
+-V <verification_file> : Takes the path to the verification file.
+			The verification file must be outside the monitored 
+			directory. It contains an entry for every file in the
+			directory along with information about its size, owner, 
+			group owner, file permissions, last modification date and a 		
+			hashed string of its contents. 
+
+-R <report_file> :Takes the path to the report file. The report file must be ouside 		  
+		  the monitored directory. It saves the paths to the monitored    		
+	  	  directory and to the verification file. It contains summary
+		  information about initialisation/verification mode .
+   		  This must be a .txt file. 
+
+-H <hash_function> : The function to be used to hash the file contents. A different 
+		   hash value means that the file contents have been changed. The 
+		   supported hash functions are MD5, SHA-1, SHA-256, SHA-358, 		  	
+		   SHA-512.  To be used only in initialisation mode.
+		   Usage: -H md5 | sha1 | sha256 | sha358 | sha512
